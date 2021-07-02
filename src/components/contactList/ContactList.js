@@ -1,8 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./ContactList.module.css";
+import PropTypes from "prop-types";
+
 import { connect } from "react-redux";
-import { handleDelete } from "../../redux/contactForm/contactFormActions";
+import { deleteContactOperation } from "../../redux/contactForm/contactFormOperetion";
 
 
 const ContactList = ({ contacts, handleDelete }) => {
@@ -52,7 +53,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = {
- handleDelete,
+ handleDelete: deleteContactOperation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
