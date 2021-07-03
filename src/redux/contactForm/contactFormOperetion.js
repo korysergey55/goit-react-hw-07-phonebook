@@ -2,14 +2,12 @@ import {
  getAllContactsApi,
  addNewContactApi,
  deleteContactApi,
- filterContactApi,
-} from "../../components/servises/api";
+ } from "../../components/servises/api";
 
 import {
  getAllContacts,
  submitNewContact,
  handleDelete,
- filterContacts,
  setLoader,
 } from "./contactFormActions";
 
