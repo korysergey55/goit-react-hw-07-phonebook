@@ -5,6 +5,7 @@ import {
  submitNewContact,
  handleDelete,
  filterContacts,
+ setLoader
 } from "./contactFormActions";
 
 const itemsReducer = createReducer(
@@ -21,9 +22,15 @@ const filterItemsReducer = createReducer("", {
  [filterContacts]: (_, action) => action.payload,
 });
 
+const contactLoaderReducer = createReducer(false,
+ {
+  [setLoader]: (state) => !state,
+ });
+
 const contactFormCartReduser = combineReducers({
  items: itemsReducer,
  filter: filterItemsReducer,
+ loader: contactLoaderReducer,
 });
 
 export default contactFormCartReduser;

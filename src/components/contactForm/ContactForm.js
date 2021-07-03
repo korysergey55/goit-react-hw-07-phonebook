@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "./ContactForm.module.css";
+import Loader from "../loader/Loader";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,7 +9,15 @@ import {
  addContactOperation,
  getAllContactsOperation,
 } from "../../redux/contactForm/contactFormOperetion";
-import { contactsSelector } from "../../redux/contactForm/contactFormSelectors";
+import {
+ contactsSelector,
+ loaderSelector,
+} from "../../redux/contactForm/contactFormSelectors";
+
+const initialState = {
+ name: "",
+ number: "",
+};
 
 class ContactForm extends Component {
  static propTypes = {
@@ -16,8 +25,7 @@ class ContactForm extends Component {
  };
 
  state = {
-  name: "",
-  number: "",
+  ...initialState,
  };
 
  componentDidMount() {
@@ -34,24 +42,18 @@ class ContactForm extends Component {
 
   if (this.findDuplicate(this.state.name)) {
    this.props.addContactOperation({ ...this.state });
-   this.resetForm();
   }
- };
-
- resetForm = () => {
-  this.setState({ name: "", number: "" });
+  this.setState({ ...initialState });
  };
 
  findDuplicate = (newContactName) => {
   const isDublicate = this.props.contacts.some(
    (contact) => contact.name === newContactName
   );
-
   if (!newContactName) {
    alert("The field cannot be empty!");
    return false;
   }
-
   if (isDublicate) {
    alert("This Name already exist!" + newContactName);
    return false;
@@ -62,6 +64,7 @@ class ContactForm extends Component {
  render() {
   return (
    <>
+    {this.props.loader && <Loader/>}
     <form className={styles.mainForm} onSubmit={this.handleSubmitForm}>
      <div className={styles.inputContainer}>
       <label className={styles.labelName}>Name</label>
@@ -99,6 +102,7 @@ class ContactForm extends Component {
 }
 const mapStateToProps = (state, ownProps) => ({
  contacts: contactsSelector(state),
+ loader: loaderSelector(state),
 });
 
 const mapDispatchToProps = {
