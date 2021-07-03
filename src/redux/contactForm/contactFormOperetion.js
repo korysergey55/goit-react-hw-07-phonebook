@@ -6,8 +6,11 @@ import {
 
 import {
  getAllContacts,
+ getAllRequestError,
  submitNewContact,
+ submitNewContactRequestError,
  handleDelete,
+ handleDeleteRequestError,
  setLoader,
 } from "./contactFormActions";
 
@@ -18,7 +21,7 @@ export const getAllContactsOperation = (contact) => async (dispatch) => {
   dispatch(getAllContacts(response.data));
   dispatch(setLoader());
  } catch (error) {
-  console.log(error);
+  dispatch(getAllRequestError(error));
  }
 };
 
@@ -29,7 +32,7 @@ export const addContactOperation = (contact) => async (dispatch) => {
   dispatch(submitNewContact(response.data));
   dispatch(setLoader());
  } catch (error) {
-  console.log(error);
+ dispatch(submitNewContactRequestError(error));
  }
 };
 
@@ -40,6 +43,6 @@ export const deleteContactOperation = (id) => async (dispatch) => {
   dispatch(handleDelete(id));
   dispatch(setLoader());
  } catch (error) {
-  console.log(error);
+  dispatch(handleDeleteRequestError(error));
  }
 };

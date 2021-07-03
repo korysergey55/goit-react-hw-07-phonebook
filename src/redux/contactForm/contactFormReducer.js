@@ -2,10 +2,13 @@
 import { createReducer, combineReducers } from "@reduxjs/toolkit";
 import {
  getAllContacts,
+ getAllRequestError,
  submitNewContact,
+ submitNewContactRequestError,
  handleDelete,
+ handleDeleteRequestError,
  filterContacts,
- setLoader
+ setLoader,
 } from "./contactFormActions";
 
 const itemsReducer = createReducer(
@@ -22,15 +25,24 @@ const filterItemsReducer = createReducer("", {
  [filterContacts]: (_, action) => action.payload,
 });
 
-const contactLoaderReducer = createReducer(false,
+const loaderReducer = createReducer(false, {
+ [setLoader]: (state) => !state,
+});
+
+const errorReducer = createReducer(
+ {},
  {
-  [setLoader]: (state) => !state,
- });
+  [getAllRequestError]: (state, action) => action.payload,
+  [submitNewContactRequestError]: (state, action) => action.payload,
+  [handleDeleteRequestError]: (state, action) => action.payload,
+ }
+);
 
 const contactFormCartReduser = combineReducers({
  items: itemsReducer,
  filter: filterItemsReducer,
- loader: contactLoaderReducer,
+ loader: loaderReducer,
+ error: errorReducer,
 });
 
 export default contactFormCartReduser;
